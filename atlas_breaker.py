@@ -31,8 +31,8 @@ def main(argv=sys.argv):
                 output_image.save(output_dir + os.path.sep + output_file_name + ext)
         return 0
     except:
-        print("Error:", sys.exc_info()[0])
-        return 1
+        print('Error:', sys.exc_info())
+        return 2
 
 
 def usage():
