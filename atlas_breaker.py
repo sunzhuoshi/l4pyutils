@@ -9,9 +9,10 @@ import getopt
 
 
 def usage():
-    print('atlas_breaker.py [-c csv | -w width -h height] atlas outdir')
+    print('atlas_breaker.py [-c csv | -w width -h height [-p prefix]] atlas outdir')
     print(' -c csv\tcsv file path')
-    print(' -w width -h height\t width and height of single image')
+    print(' -w width -h height \t width and height of single image')
+    print(' -p prefix of output file when -w -h used')
     print(' atlas\tatlas image path')
     print(' outdir\toutput directory')
 
@@ -19,9 +20,10 @@ def main(argv=sys.argv):
     csv_path = None
     output_width = None
     output_height = None
+    output_file_prefix = 'output_'
 
     try:
-        opts, args = getopt.getopt(argv[1:], 'c:w:h:')
+        opts, args = getopt.getopt(argv[1:], 'c:w:h:p:')
         for o, a in opts:
             if '-c' == o:
                 csv_path = a
@@ -29,6 +31,8 @@ def main(argv=sys.argv):
                 output_width = int(a)
             elif '-h' == o:
                 output_height = int(a)
+            elif '-p' == o:
+                output_file_prefix = a
     except getopt.GetoptError as err:
         print(err)  # will print something like "option -a not recognized"
         usage()
@@ -61,7 +65,7 @@ def main(argv=sys.argv):
             start_x = 0
             start_y = 0
             while (start_x < atlas_image.width) and (start_y < atlas_image.height):
-                output_file_name = 'output_' + str(output_index)
+                output_file_name = output_file_prefix + str(output_index)
                 x = start_x
                 y = start_y
                 box = [x, y, x + output_width, y + output_height]
